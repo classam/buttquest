@@ -3,6 +3,7 @@ var BrowserWindow = require('browser-window');  // Module to create native brows
 
 // Local imports
 var server = require('./server');
+var socket = require('./socket');
 
 // Report crashes to our server.
 require('crash-reporter').start();

@@ -5,14 +5,21 @@ var express_app = express()
 var http = require('http').Server(express_app);
 var io = require('socket.io')(http);
 
+var home_directory = __dirname;
+console.log("Home directory: ", home_directory);
+
 nunjucks.configure('views', {
   autoescape: true,
   express   : express_app
 });
 
+// Static Content
+express_app.use('/media', express.static('./media'));
+
 // Serve it up!
 express_app.get('/', function (request, response) {
   response.render('index.html', {
+    home_directory: home_directory,
     title : 'Buttquest',
   });
 });

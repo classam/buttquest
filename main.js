@@ -3,10 +3,11 @@ var BrowserWindow = require('browser-window');  // Module to create native brows
 
 // Local imports
 var server = require('./server');
-var socket = require('./socket');
+//var socket = require('./socket');
 
 // Report crashes to our server.
 require('crash-reporter').start();
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the javascript object is GCed.
@@ -23,7 +24,10 @@ app.on('window-all-closed', function() {
 // initialization and ready for creating browser windows.
 app.on('ready', function() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600});
+  mainWindow = new BrowserWindow(
+    {width: 800,
+     height: 600,
+     node_integration: false});
 
   // and load the index.html of the app.
   mainWindow.loadUrl('http://localhost:3000');

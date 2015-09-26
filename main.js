@@ -3,15 +3,18 @@ var BrowserWindow = require('browser-window');  // Module to create native brows
 
 // Local imports
 var server = require('./server');
-//var socket = require('./socket');
+var ip = require('./ip');
 
 // Report crashes to our server.
 require('crash-reporter').start();
 
+// Boot the local Express.js server and Socket.IO server
+server({'ip':ip(), 'port':3000, 'home_directory':__dirname });
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the javascript object is GCed.
 var mainWindow = null;
+
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {

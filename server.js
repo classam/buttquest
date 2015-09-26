@@ -4,45 +4,56 @@ var nunjucks = require('nunjucks')
 var express_app = express()
 var http = require('http').Server(express_app);
 var io = require('socket.io')(http);
+var colors = require('colors');
 
-var home_directory = __dirname;
-console.log("Home directory: ", home_directory);
 
-nunjucks.configure('views', {
-  autoescape: true,
-  express   : express_app
-});
+function check(name, variable){
+  if(typeof(variable) === 'undefined'){
+    console.error(name.red, "not defined!")
+  }
+  else{
+    console.log(name.green, ":", variable);
+  }
+}
 
-// Static Content
-express_app.use('/media', express.static('./media'));
+module.exports = exports = function(options){
+  /*
+   * Options:
+   * ip: this server's IP address
+   * port: which port to serve HTTP content on
+   * home_directory: the root directory of all content
+   */
 
-// Serve it up!
-express_app.get('/', function (request, response) {
-  response.render('index.html', {
-    home_directory: home_directory,
-    title : 'Buttquest',
+  check('IP Address', options['ip'])
+  check('Port', options['port'])
+  check('Home Directory', options['home_directory'])
+
+  nunjucks.configure('views', {
+    autoescape: true,
+    express   : express_app
   });
-});
 
-io.on('connection', function(socket){
-  console.log('a user connected');
-  socket.on('chat message', function(msg){
-      console.log('message: ' + msg);
+  // Static Content
+  express_app.use('/media', express.static('./media'));
+
+  // Serve it up!
+  express_app.get('/', function (request, response) {
+    response.render('index.html', {
+      home_directory: options['home_directory'],
+      ip: options['ip'],
+      port: options['port'],
+      title : 'Buttquest',
     });
-});
+  });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
-});
+  io.on('connection', function(socket){
+    console.log('a user connected');
+    socket.on('chat message', function(msg){
+        console.log('message: ' + msg);
+      });
+  });
 
-/*
-var server = express_app.listen(3000, function () {
-  var host = server.address().address;
-  var port = server.address().port;
-  console.log('Example app listening at http://%s:%s', host, port);
-});
-*/
-
-
-module.exports = function(){
+  http.listen(options['port'], function(){
+    console.log('listening on *:', options['port']);
+  });
 }

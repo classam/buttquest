@@ -19,17 +19,16 @@
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
+    <script>module = undefined;</script>
     <script src="/media/lib/socket.io-1.2.0.js"></script>
-    <script>console.log("Home: {{home_directory}}")</script>
-    <script>window.$ = window.jQuery = require("{{home_directory}}" + '/media/lib/jquery-2.1.4.min.js');</script>
     <script src="/media/lib/jquery-2.1.4.min.js"></script>
+    <script src="/media/lib/lodash.min.js"></script>
+    <!-- Local Globals -->
+    <script src="/media/murmurhash.js"></script>
+    <script src="/media/serializingLocalStorage.js"></script>
+    <script src="/media/sync.js"></script>
+
     <script>
-      var socket = io();
-      $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
-        return false;
-      });
     </script>
   </body>
 </html>

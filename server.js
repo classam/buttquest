@@ -6,6 +6,8 @@ var http = require('http').Server(express_app);
 var io = require('socket.io')(http);
 var colors = require('colors');
 
+var Sync = require('./sync');
+
 
 function check(name, variable){
   if(typeof(variable) === 'undefined'){
@@ -24,6 +26,7 @@ module.exports = exports = function(options){
    * home_directory: the root directory of all content
    */
 
+  console.log("Checking Configuration".green.underline);
   check('IP Address', options['ip'])
   check('Port', options['port'])
   check('Home Directory', options['home_directory'])
@@ -46,12 +49,22 @@ module.exports = exports = function(options){
     });
   });
 
+  var sync = Sync(io, {'server':true});
+  /*
   io.on('connection', function(socket){
-    console.log('a user connected');
+    console.log('An unknown user connected.');
+    socket.on('GUID', function(msg){
+
+    });
     socket.on('chat message', function(msg){
-        console.log('message: ' + msg);
-      });
+        console.log('user ' + uid + ": " + msg);
+    });
+    socket.on('disconnect', function(msg){
+        console.log('user ' + uid + " disconnected: " + msg);
+    });
   });
+  */
+
 
   http.listen(options['port'], function(){
     console.log('listening on *:', options['port']);

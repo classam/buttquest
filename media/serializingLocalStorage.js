@@ -16,6 +16,10 @@ serializingLocalStorage.getItem = function(key){
   return JSON.parse(serialized);
 }
 
+serializingLocalStorage.clear = function(){
+  localStorage.clear();
+}
+
 if(typeof(module) !== 'undefined'){
   module.exports = serializingLocalStorage;
 }

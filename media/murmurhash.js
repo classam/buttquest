@@ -1,6 +1,10 @@
+if(typeof(module) !== 'undefined'){
+  var verify = require('./verify.js');
+}
 
 // Gary Court's Awesome Murmurhash3 (https://github.com/garycourt/murmurhash-js)
 function murmurhash(data, seed) {
+  verify(data);
   var key = JSON.stringify(data);
   var remainder, bytes, h1, h1b, c1, c1b, c2, c2b, k1, i;
 

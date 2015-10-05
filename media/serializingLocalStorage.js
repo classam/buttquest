@@ -3,17 +3,23 @@
 var serializingLocalStorage = {}
 
 serializingLocalStorage.setItem = function(key, data){
-  console.log("Serializing ", key);
+  verify(key, data);
+  //console.log("Serializing ", key);
   var serialized = JSON.stringify(data);
-  return localStorage.setItem(key, data);
+  return localStorage.setItem(key, serialized);
 }
 
 serializingLocalStorage.getItem = function(key){
+  verify(key);
   var serialized = localStorage.getItem(key);
   if(serialized === null){
     return null;
   }
   return JSON.parse(serialized);
+}
+
+serializingLocalStorage.removeItem = function(key){
+  return localStorage.removeItem(key);
 }
 
 serializingLocalStorage.clear = function(){
